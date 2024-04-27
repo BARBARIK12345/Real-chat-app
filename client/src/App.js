@@ -6,6 +6,7 @@ import Register from './Pages/Register';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Pages/Login';
 import Homepage from './Pages/Homepage';
+import Chat from './Pages/Chat';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path='/' element={<Homepage />}/>
         <Route path='/register' element={<Register />}/>
         <Route path='/login' element={<Login />}/>
+        <Route path='/chat' element={<Chat/>}/>
       </Routes>
       <Footer/>
     </Router>   
