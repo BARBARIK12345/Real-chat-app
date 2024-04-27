@@ -27,7 +27,7 @@ const registerController = async (req , res) => {
       });
       return res.status(201).send({
         success: true,
-        data: req.body,
+        // data: req.body,
         message: "Register successfully",
       });
     }

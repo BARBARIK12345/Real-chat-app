@@ -1,39 +1,52 @@
 import React, { useState } from "react";
 import {
-    FormControl,
-    FormLabel,
-    Input,
-    Button,
-    Box,
-    Heading,
-  } from '@chakra-ui/react'
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+  Box,
+  Heading,
+} from "@chakra-ui/react";
 import axios from "axios";
-
-
+import {useNavigate} from "react-router-dom";
 
 const Login = () => {
+  const [loginData, setloginData] = useState({
+    email: "",
+    password: "",
+  });
 
-    const [loginData, setloginData] = useState({
-        email: '',
-        password: '',
-      });
-   
-   const handleSubmit= async(e)=>{
-         e.preventDefault();
-         if (!loginData.email || !loginData.password) {
-            alert('Email and password are required');
-            return;
-          }
-        try {
-            const response = axios.post("http://localhost:7000/api/user/login", loginData)
-        } catch (error) {
-            console.log("Error messsage is ", error)
-        }  
-   }
+  const navigate = useNavigate()
 
-   const handleChange=(e)=>{
-     setloginData({...loginData , [e.target.name] : e.target.value})
-   }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!loginData.email || !loginData.password) {
+      alert("Email and password are required");
+      return;
+    }
+    try {
+      const response = axios.post(
+        "http://localhost:7000/api/user/login",
+        loginData
+      );
+      const {data} = await response;
+      console.log(data.success);
+
+      if (!data.success) {
+        alert(data.message);
+      }
+      if (data.success) {
+        localStorage.setItem("token" , data.token)
+        navigate("/")
+      }
+    } catch (error) {
+      console.log("Error messsage is ", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    setloginData({ ...loginData, [e.target.name]: e.target.value });
+  };
 
   return (
     <>

@@ -5,6 +5,7 @@ import Footer from './component/Footer';
 import Register from './Pages/Register';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Pages/Login';
+import Homepage from './Pages/Homepage';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
     <Router>
       <Header/>
       <Routes>
-        <Route path='/' element={<Register />}/>
+        <Route path='/' element={<Homepage />}/>
         <Route path='/register' element={<Register />}/>
         <Route path='/login' element={<Login />}/>
       </Routes>

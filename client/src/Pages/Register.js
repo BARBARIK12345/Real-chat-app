@@ -8,6 +8,7 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +18,7 @@ const Register = () => {
     confirmPassword: "",
   });
 
-
+  const navigate= useNavigate();
   const handleSubmit =async (e)=>{
      e.preventDefault();
      if (formData.password !== formData.confirmPassword) {
@@ -25,6 +26,15 @@ const Register = () => {
      }
      try {
         const response = await axios.post("http://localhost:7000/api/user/register", formData)
+        const {data} = response
+        
+        if (!data.success) {
+          alert("Please Register perfectly ");
+        }
+        if (data.success) {
+          alert("register succesfully" , data.message)
+          navigate("/login")
+        }
      } catch (error) {
         console.log("the error is ", error)
      }
