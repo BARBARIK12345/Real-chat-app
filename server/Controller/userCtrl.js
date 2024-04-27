@@ -2,29 +2,28 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../Models/userModel");
 const bcrypt = require("bcrypt");
 
-const registerController = async () => {
+const registerController = async (req , res) => {
   try {
-    //  const {name , email , password} = req.body
+     const {name , email } = req.body
 
-    const existuser = await userModel.find({ email: req.body.email });
-
+    const existuser = await userModel.findOne({ email: req.body.email });
+    console.log(req.body)
     if (existuser) {
       res.send({ success: false, message: "user is already there" });
     }
-    if (req.body.password === req.body.confirmpassword) {
+    if (req.body.password !== req.body.confirmPassword) {
       return res
         .status(201)
         .send({ success: false, message: "Password not matched Please check" });
     }
     const password = req.body.password;
-    const salt = await bcrypt.genSaltSync(10);
+    const salt =  bcrypt.genSaltSync(10);
     const hashpswrd = await bcrypt.hash(password, salt);
     if (!existuser) {
       userModel.create({
         name,
         email,
-        hashpswrd,
-        conformpassword,
+        password : hashpswrd,
       });
       return res.status(201).send({
         success: true,
@@ -33,16 +32,16 @@ const registerController = async () => {
       });
     }
   } catch (error) {
-    res.status(500).send({
+      res.status(500).send({
       success: false,
       message: `SOmething Wrong with me ${error.message}`,
     });
   }
 };
 
-const loginController = async () => {
+const loginController = async (req, res) => {
   try {
-    const userlogin = await userModel.findone({ email: req.body.email });
+    const userlogin = await userModel.findOne({ email: req.body.email });
     if (!userlogin) {
       return res
         .status(200)

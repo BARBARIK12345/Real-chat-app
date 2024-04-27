@@ -12,7 +12,7 @@ connectDB()
 
 // app.use(express.urlencoded())
 app.use(express.json())
-app.use(cookieParser())
+// app.use(cookieParser())
 
 
 app.get("/" , (req , res)=>{
