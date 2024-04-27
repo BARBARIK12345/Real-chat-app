@@ -25,7 +25,7 @@ const Login = () => {
             return;
           }
         try {
-            const response = axios.post("http://localhost:7000/api/register", loginData)
+            const response = axios.post("http://localhost:7000/api/user/login", loginData)
         } catch (error) {
             console.log("Error messsage is ", error)
         }  

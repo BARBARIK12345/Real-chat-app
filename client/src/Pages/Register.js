@@ -24,7 +24,7 @@ const Register = () => {
        return alert("Please check password")
      }
      try {
-        const response = await axios.post("http://localhost:7000/api/register", formData)
+        const response = await axios.post("http://localhost:7000/api/user/register", formData)
      } catch (error) {
         console.log("the error is ", error)
      }

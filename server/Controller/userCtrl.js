@@ -82,4 +82,4 @@ const loginController = async () => {
   }
 };
 
-model.exports = { registerController, loginController };
+module.exports = { registerController, loginController };
