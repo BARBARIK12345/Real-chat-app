@@ -6,8 +6,6 @@ import {
   Button,
   Box,
   Heading,
-  Alert,
-  AlertIcon,
 } from "@chakra-ui/react";
 import axios from 'axios'
 
@@ -48,6 +46,7 @@ const Register = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
+              required
             />
           </FormControl>
           <FormControl id="email" mb={4}>
@@ -57,6 +56,7 @@ const Register = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
+              required
             />
           </FormControl>
           <FormControl id="password" mb={4}>
@@ -66,6 +66,7 @@ const Register = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
+              required
             />
           </FormControl>
           <FormControl id="confirmPassword" mb={4}>
@@ -75,6 +76,7 @@ const Register = () => {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
+              required
             />
           </FormControl>
           <Button colorScheme="teal" type="submit">
