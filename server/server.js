@@ -19,7 +19,7 @@ app.get("/" , (req , res)=>{
     res.send("hii welcome to server")
  })
 
-// app.use("/api/" , ) 
+app.use("/api/user" , require("./Routes/userRoutes") ) 
 
 
 let Port = process.env.PORT;
