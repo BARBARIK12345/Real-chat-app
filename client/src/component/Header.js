@@ -19,7 +19,7 @@ const Header = () => {
   const navigate= useNavigate();
 
   const handleLogout = async()=>{
-    const {data} = await axios.post('http://localhost:7000/api/user/logout')
+    const {data} = await axios.post('http://localhost:7000/api/user/logout', {})
     console.log(data)
     if (data.success) {
       console.log("logout done")

@@ -35,8 +35,8 @@ const Chat = () => {
       
       //  let senderchat = {message : input , issuer : true}
       //  let recieverchat = {message : reciver}
-
-        setChat({...chat , sender : inputmsg})
+           setChat([...chat , {sender : inputmsg}])
+        // setChat({...chat , sender : inputmsg})
           console.log(chat)
       const response = await axios.post( "http://localhost:7000/api/user/chat", chat)
     }
@@ -68,7 +68,7 @@ const Chat = () => {
           flexWrap="wrap"
           overflowY="scroll"
         >
-          {/* {chat.map((newchats, index) => ( */}
+          {chat.map((newchats, index) => (
             <>
             <Box
               m="0.8rem"
@@ -80,7 +80,7 @@ const Chat = () => {
               ml="70%"
             >
               <Text fontSize="smaller" fontFamily="sans-serif" color="blue">
-                {chat.message}
+                {newchats.sender}
               </Text>
             </Box>
              
@@ -98,7 +98,7 @@ const Chat = () => {
              </Text>
            </Box> */}
            </>
-          {/* ))} */}
+           ))} 
         </Container>
 
         <Container

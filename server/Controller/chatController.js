@@ -1,13 +1,14 @@
 const chatModel = require("../Models/chatModel")
 
 
-const chatController= async(req, res)=>{
+const sendermssgController= async(req, res)=>{
     try {
-        
+        const {sender , reciever , content} = req.body
+        res.status(201).json({ message })
     } catch (error) {
         return res.status(500).send({success : false , message : `Server Error ${error}`})
         
     }
 }
 
-module.exports = chatController
+module.exports = {sendermssgController}

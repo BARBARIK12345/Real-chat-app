@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Pages/Login';
 import Homepage from './Pages/Homepage';
 import Chat from './Pages/Chat';
+import Socket from './component/Socket';
 
 function App() {
   return (
@@ -18,8 +19,10 @@ function App() {
         <Route path='/register' element={<Register />}/>
         <Route path='/login' element={<Login />}/>
         <Route path='/chat' element={<Chat/>}/>
+        <Route path='/socket' element={<Socket/>}/>
+
       </Routes>
-      <Footer/>
+      {/* <Footer/> */}
     </Router>   
     </>
   );

@@ -1,16 +1,23 @@
 const express= require("express")
 const cors = require("cors")
-const http = require('http')
-const socketIo = require("socket.io")
+const { Server } = require( "socket.io");
+const {createServer} = require("http");
 const connectDB = require("./config/db")
 const dotenv = require("dotenv").config()
 const cookieParser = require("cookie-parser")
 
 
 const app = express()
-const server = http.createServer(app);
-const io = socketIo(server)
 app.use(cors())
+const server = createServer(app);                  /// creating new server inside server hence we used server at instance of app.listening
+
+const io = new Server(server , {                 /// io cicuit created on "server hence we use server instead of app"
+    cors : {
+        origin : "http://localhost:3000",
+        methods : ["GET" , "POST"],
+        credentials : true ,
+    }
+});
 
 //==== Connect database ===/
 connectDB()
@@ -26,27 +33,27 @@ app.get("/" , (req , res)=>{
 
 app.use("/api/user" , require("./Routes/userRoutes") ) 
 
-// Socket.io integration
+
+// Socket.io logic
 io.on('connection', (socket) => {
-    console.log('New client connected', socket.id);
-    
-    // Handle incoming messages
-    socket.on('message', (data) => {
-      console.log('Message received:', data);
+    console.log('A user connected' , socket.id);
+  
+    // Handle new message
+    socket.on('newMessage', ({room , message}) => {
+      console.log('New message:', message);
       // Broadcast the message to all connected clients
-      io.emit('message', data);
+    //   io.emit('recieved-message', message);
+       socket.to(room).emit("recieved-message", message)
     });
-    socket.on('message', (data) => {
-     io.emit("recieved-message" , data) 
-    });  
+  
     // Handle disconnection
     socket.on('disconnect', () => {
-      console.log('Client disconnected' , socket.id);
+      console.log(`User disconnected, ${socket.id}`);
     });
-})
+  });
 
 let Port = process.env.PORT;
 
-app.listen(Port , ()=>{
+server.listen(Port , ()=>{
     console.log(`server running on ${Port}`)
 })
