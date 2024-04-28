@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     FormControl,
     Button,
@@ -8,10 +8,39 @@ import {
     Text,
     Container,
   } from "@chakra-ui/react";
+  import io from 'socket.io-client';
+import axios from 'axios';
 
 const Chat = () => {
     
+    const [user, setUser] = useState('');
     const [chat , setChat] = useState([]);
+    const [inputmsg , setInputmsg] = useState("");
+    const [reply , setReply] = useState([]);
+   
+   
+
+
+    // useEffect(() => {
+    //   const userName = prompt('Enter your name:');
+    //   setUser(userName);
+    //   socket.on('message', (message) => {
+    //     setMessages((prevMessages) => [...prevMessages, message]);
+    //   });
+    // }, [])
+
+    const handlesubmit= async(e)=>{
+         e.preventDefault();
+        //  console.log(...input)
+      
+      //  let senderchat = {message : input , issuer : true}
+      //  let recieverchat = {message : reciver}
+
+        setChat({...chat , sender : inputmsg})
+          console.log(chat)
+      const response = await axios.post( "http://localhost:7000/api/user/chat", chat)
+    }
+
   return (
     <div>
        <Flex
@@ -39,7 +68,7 @@ const Chat = () => {
           flexWrap="wrap"
           overflowY="scroll"
         >
-          {chat.map((newchats, index) => (
+          {/* {chat.map((newchats, index) => ( */}
             <>
             <Box
               m="0.8rem"
@@ -51,11 +80,11 @@ const Chat = () => {
               ml="70%"
             >
               <Text fontSize="smaller" fontFamily="sans-serif" color="blue">
-                {newchats.message}
+                {chat.message}
               </Text>
             </Box>
              
-             <Box
+             {/* <Box
              m="0.8rem"
              borderWidth="1px"
              borderColor="red"
@@ -67,9 +96,9 @@ const Chat = () => {
              <Text fontSize="smaller" fontFamily="sans-serif" color="blue">
                bot {newchats.messages}
              </Text>
-           </Box>
+           </Box> */}
            </>
-          ))}
+          {/* ))} */}
         </Container>
 
         <Container
@@ -83,7 +112,7 @@ const Chat = () => {
           flexWrap="wrap"
         >
           <form 
-        //   onSubmit={handlesubmit}
+          onSubmit={handlesubmit}
           >
             <FormControl mb="5px">
               {/* <FormLabel>Chat</FormLabel> */}
@@ -92,8 +121,8 @@ const Chat = () => {
                 h="2rem"
                 type="text"
                 name="msg"
-                // value={input}
-                // onChange={(e) => setInput(e.target.value)}
+                value={inputmsg}
+                onChange={(e) => setInputmsg(e.target.value)}
               />
                <Button m="0.3rem" h="2rem" type="submit">Send</Button>
             </FormControl>
