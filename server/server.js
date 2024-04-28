@@ -52,6 +52,12 @@ app.use("/api/user" , require("./Routes/userRoutes") )
 // Socket.io logic
 io.on('connection',  (socket) => {
     console.log('A user connected' , socket.id);
+
+    //Decrypt message
+      socket.on('sendMessage', (encryptedMessage) => {
+        const decryptedMessage = CryptoJS.AES.decrypt(encryptedMessage, 'secret key').toString(CryptoJS.enc.Utf8);
+        io.emit('message', decryptedMessage);
+      });
   
     // Handle new message
     socket.on('newMessage', ({room , message}) => {

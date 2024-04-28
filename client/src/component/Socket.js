@@ -16,6 +16,7 @@ function Socket() {
   const [sender, setSender] = useState([]);
   const [room , setRoom]= useState("")
   const [reciever , setReciever] = useState([]);
+  const [excrypt , setEncrypt] = useState([]);
 
   const socket = io("http://localhost:7000")
 //   const socket = useMemo(() => io("http://localhost:7000"));
@@ -25,6 +26,13 @@ function Socket() {
       // setSocketId(socket.id);
       console.log("connected", socket.id);
     });
+
+    // Encryption massage
+    socket.on('message', (encryptedMessage) => {
+        const decryptedMessage = CryptoJS.AES.decrypt(encryptedMessage, 'secret key').toString(CryptoJS.enc.Utf8);
+        setEncrypt((prevMessages) => [...prevMessages, decryptedMessage]);
+      });
+
     // Listen for incoming messages
     socket.on("recieved-message", async (message) => {
       console.log("Received:", message);
