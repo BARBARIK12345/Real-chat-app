@@ -4,6 +4,7 @@ const { Server } = require( "socket.io");
 const {createServer} = require("http");
 const connectDB = require("./config/db")
 const dotenv = require("dotenv").config()
+const multer = require("multer")
 const cookieParser = require("cookie-parser")
 
 
@@ -18,6 +19,20 @@ const io = new Server(server , {                 /// io cicuit created on "serve
         credentials : true ,
     }
 });
+
+//==Multer uplaod backend
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    },
+  });
+
+  const upload = multer({ storage: storage });
+
 
 //==== Connect database ===/
 connectDB()
@@ -50,6 +65,11 @@ io.on('connection',  (socket) => {
     socket.on('disconnect', () => {
       console.log(`User disconnected, ${socket.id}`);
     });
+
+    //Image uplaod
+    socket.on('sendImage', upload.single('image'), (formData) => {
+        
+      });
   });
 
 let Port = process.env.PORT;
