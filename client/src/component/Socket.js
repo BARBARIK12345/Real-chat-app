@@ -15,6 +15,7 @@ function Socket() {
   const [message, setMessage] = useState("");
   const [sender, setSender] = useState([]);
   const [room , setRoom]= useState("")
+  const [reciever , setReciever] = useState([]);
 
   const socket = io("http://localhost:7000")
 //   const socket = useMemo(() => io("http://localhost:7000"));
@@ -25,25 +26,35 @@ function Socket() {
       console.log("connected", socket.id);
     });
     // Listen for incoming messages
-    socket.on("recieved-message", (mssg) => {
-      console.log("Received:", mssg);
+    socket.on("recieved-message", async (message) => {
+      console.log("Received:", message);
+      let data = await message;
+      setReciever([...reciever , data])
     });
 
     // Clean up on unmount
     return () => {
       socket.off("message");
     };
-  }, []);
+  },[]);
 
-  const sendMessage = (e) => {
+//   useEffect(()=>{
+//     socket.on("recieved-message", (message) => {
+//         console.log("Received:", message);
+//         setReciever([...reciever, message]);
+//       });
+//   },[reciever])
+
+  const sendMessage = async (e) => {
     e.preventDefault();
     setSender([...sender, message]);
     socket.emit("newMessage", {message, room });
     console.log("Sent:", message);
-    // const response= axios.post("http://localhost:7000", sender)
+    const response= await axios.post("http://localhost:7000/api/user/chats", {send: sender , reciv: reciever})
     // console.log(sender)
     // setMessage('');
   };
+//   console.log(reciever)
 
   return (
     <div>
@@ -88,8 +99,10 @@ function Socket() {
                   {newchats}
                 </Text>
               </Box>
-
-              {/* <Box
+              </>
+            ))}
+            {reciever.map((rec, index) => ( 
+              <> <Box
              m="0.8rem"
              borderWidth="1px"
              borderColor="red"
@@ -99,9 +112,9 @@ function Socket() {
              mr="70%"
            >
              <Text fontSize="smaller" fontFamily="sans-serif" color="blue">
-               bot {newchats.messages}
+               bot {rec.recieve }
              </Text>
-           </Box> */}
+           </Box> 
             </>
           ))}
         </Container>

@@ -35,7 +35,7 @@ app.use("/api/user" , require("./Routes/userRoutes") )
 
 
 // Socket.io logic
-io.on('connection', (socket) => {
+io.on('connection',  (socket) => {
     console.log('A user connected' , socket.id);
   
     // Handle new message

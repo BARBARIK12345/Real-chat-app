@@ -8,6 +8,7 @@ import Login from './Pages/Login';
 import Homepage from './Pages/Homepage';
 import Chat from './Pages/Chat';
 import Socket from './component/Socket';
+import ProtectedRout from './component/ProtectedRout';
 
 function App() {
   return (
@@ -15,11 +16,20 @@ function App() {
     <Router>
       <Header/>
       <Routes>
-        <Route path='/' element={<Homepage />}/>
+        <Route path='/' element=
+        { <ProtectedRout>
+        <Homepage />
+        </ProtectedRout>}/>
         <Route path='/register' element={<Register />}/>
         <Route path='/login' element={<Login />}/>
-        <Route path='/chat' element={<Chat/>}/>
-        <Route path='/socket' element={<Socket/>}/>
+        <Route path='/chat' element=
+        {<ProtectedRout>
+          <Chat/>
+        </ProtectedRout>}/>
+        <Route path='/socket' element={
+        <ProtectedRout>
+          <Socket/>
+        </ProtectedRout>}/>
 
       </Routes>
       {/* <Footer/> */}

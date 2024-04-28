@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.post("/register" , registerController);
 router.post("/login" , loginController);
-router.post("/chat", authmiddleware , sendermssgController);
+router.post("/chats" , sendermssgController);
 router.post("/logout" , logoutController)
 
 module.exports = router;
