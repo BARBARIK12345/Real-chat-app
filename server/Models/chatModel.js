@@ -15,10 +15,13 @@ const messageSchema = new mongoose.Schema({
     type: String, 
     required: true 
   },
-  createdAt: { 
-    type: Date,
-    default: Date.now 
-   },
+  // Time: { 
+  //   type: Date,
+  //   default: Date.now 
+  //  },
+},
+{
+  timestamps: true // Add timestamps to the schema
 });
 
 const chatModel = mongoose.model("chats", messageSchema);

@@ -62,16 +62,17 @@ const Header = () => {
              chat
             </Text>
           </Link>
-          <Link to="/login">
+
+          <Link to="/socket">
             <Text
               fontSize={"2xl"}
               ml={"2rem"}
               display={{ base: "none", md: "block" }}
             >
-             Login
+             Socket chat
             </Text>
           </Link>
-          <Link to="/register">
+          {/* <Link to="/register">
             <Text
               fontSize={"2xl"}
               ml={"2rem"}
@@ -79,7 +80,7 @@ const Header = () => {
             >
              signup
             </Text>
-          </Link>
+          </Link> */}
 
           {localStorage.getItem("token") ? (
             <Link to="/login">
@@ -93,7 +94,27 @@ const Header = () => {
               </Text>
             </Link>
           ) : (
-            ""
+            <>
+            <Link to="/register">
+            <Text
+              fontSize={"2xl"}
+              ml={"2rem"}
+              display={{ base: "none", md: "block" }}
+            >
+             signup
+            </Text>
+          </Link>
+          
+          <Link to="/login">
+          <Text
+            fontSize={"2xl"}
+            ml={"2rem"}
+            display={{ base: "none", md: "block" }}
+          >
+           Login
+          </Text>
+        </Link>
+        </>
           )}
 
           {/* <Menu>

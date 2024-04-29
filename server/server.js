@@ -6,7 +6,7 @@ const connectDB = require("./config/db")
 const dotenv = require("dotenv").config()
 const multer = require("multer")
 const cookieParser = require("cookie-parser")
-
+const CryptoJS = require("crypto-js")
 
 const app = express()
 app.use(cors())
@@ -56,7 +56,7 @@ io.on('connection',  (socket) => {
     //Decrypt message
       socket.on('sendMessage', (encryptedMessage) => {
         const decryptedMessage = CryptoJS.AES.decrypt(encryptedMessage, 'secret key').toString(CryptoJS.enc.Utf8);
-        io.emit('message', decryptedMessage);
+        socket.emit('message', decryptedMessage);
       });
   
     // Handle new message

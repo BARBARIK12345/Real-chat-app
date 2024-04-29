@@ -6,13 +6,13 @@ const authmiddleware = async (req, res, next)=>{
     
   
     const token = req.cookies.jwttoken
-    jwt.verify(token , process.env.JWT_SECRET_KEY , (error , decrypt)=>{
+    jwt.verify(token , process.env.JWT_SECRET_KEY , (error , decode)=>{
 
         if (error) {
             return res.status(201).send({success : false , message : "Autherisation failed"})
         }
         else {
-            req.body.userId = decode.id;
+            req.body.userId = decode.name;
             next();
         }
         })  

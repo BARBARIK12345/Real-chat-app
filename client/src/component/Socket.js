@@ -10,6 +10,7 @@ import {
   Container,
 } from "@chakra-ui/react";
 import axios from "axios";
+import CryptoJS from 'crypto-js';
 
 function Socket() {
   const [message, setMessage] = useState("");
@@ -19,7 +20,7 @@ function Socket() {
   const [excrypt , setEncrypt] = useState([]);
 
   const socket = io("http://localhost:7000")
-//   const socket = useMemo(() => io("http://localhost:7000"));
+//   const socket = useMemo(() => io("http://localhost:7000"),[]);
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -57,8 +58,16 @@ function Socket() {
     e.preventDefault();
     setSender([...sender, message]);
     socket.emit("newMessage", {message, room });
+
+    //excyption messages
+    if (sender.trim() !== '') {
+        const encryptedMessage = CryptoJS.AES.encrypt(sender, 'secret key').toString();
+        socket.emit('sendMessage', encryptedMessage);
+      }
     console.log("Sent:", message);
-    const response= await axios.post("http://localhost:7000/api/user/chats", {send: sender , reciv: reciever})
+    
+    //==== send messages to backend===//
+    //const response= await axios.post("http://localhost:7000/api/user/chats", {send: sender , reciv: reciever})
     // console.log(sender)
     // setMessage('');
   };
